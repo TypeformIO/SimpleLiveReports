@@ -157,6 +157,8 @@ function createTypeform(form, callback) {
 	};
 
 	var requestCallback = function createFormCallback(error, response, body) {
+		report_url = 'http://simple_live_reports.ngrok.com/reports/' + body.id;
+		body.links.results_report = {get: report_url};
 		callback(error, response, body);
 	};
 

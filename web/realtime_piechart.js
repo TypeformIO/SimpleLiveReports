@@ -1,10 +1,7 @@
-console.clear();
-
 var chart = null;
+var uid = location.pathname.split('/')[2];
 
 function requestData() {
-	var uid = location.pathname.split('/')[2];
-	console.log('Should hit http://' + location.host + '/results/' + uid);
   $.ajax({
         method: 'GET',
         url: 'http://'+location.host+'/results/' + uid,
@@ -31,17 +28,11 @@ function requestData() {
           //}, 2000);
 					setTimeout(requestData, 500);    
         },
-				complete: function() {
-					console.log('Made request, lets try again')
-					setTimeout(requestData, 5000);
-				},
         cache: false
     });
 }
 
     $(document).ready(function () {
-
-        // Build the chart
         chart = new Highcharts.Chart({
             chart: {
                 plotBackgroundColor: null,
@@ -53,7 +44,7 @@ function requestData() {
             }
             },
             title: {
-                text: 'Answers to ' + location.hash.substr(1, location.hash.length)
+                text: 'Answers to ' + uid
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
