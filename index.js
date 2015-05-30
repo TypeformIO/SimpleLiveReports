@@ -84,6 +84,7 @@ app.get('/results/:form_id', function handleResultsWithToken(req, res) {
 	}
 });
 
+app.use('/reports', express.static('web'));
 app.get('/reports/:form_id', function(req, res) {
 	log('Showing report')
 	res.sendFile(__dirname + '/web/index.html');

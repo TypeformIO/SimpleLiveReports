@@ -64,7 +64,7 @@ function requestData() {
             },
             series: [{
                 type: 'pie',
-                name: 'Browser share',
+                name: 'Percentage of answers',
                 data: [
                     //['Firefox',   63],
                     //['IE',       37]
