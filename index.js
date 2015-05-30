@@ -57,27 +57,15 @@ app.get('/alive', function handleAlive(req, res) {
   res.send('yes');
 });
 
-app.post('/receive_command', function handleReceiveCommand(req, res) {
-	var form = createFormFromString(req.body.text, function(err, response, body) {
-		if(err !== null) {
-			throw err
-		}
-		log(body)
-		log(body.links.form_render.get)
-		res.send('Ok!');
-	});
-});
-
 app.post('/receive_results', function handleReceiveResults(req, res) {
 	log('Got results!');
-	log(req.body);
 	var body = req.body;
 	saveAnswers(body.token, body.answers, body.id);
 	res.send('All right...');
 });
 
 app.post('/forms', function handleForms(req, res) {
-	var body = req.body;
+	log('Creating form');
 	createFormFromJSON(req.body, function(err, response, form) {
 		if(err !== null) {
 			throw err
@@ -87,6 +75,7 @@ app.post('/forms', function handleForms(req, res) {
 });
 
 app.get('/results/:form_id', function handleResultsWithToken(req, res) {
+	log('Showing results')
 	var results = persistence.getAnswers(req.params.form_id);
 	if(results) {
 		res.send(JSON.stringify(results));
@@ -95,9 +84,8 @@ app.get('/results/:form_id', function handleResultsWithToken(req, res) {
 	}
 });
 
-app.use('/reports', express.static('web'));
-
 app.get('/reports/:form_id', function(req, res) {
+	log('Showing report')
 	res.sendFile(__dirname + '/web/index.html');
 });
 
@@ -110,33 +98,8 @@ var server = app.listen(port, function () {
 });
 
 
-function announceFormInChat() {}
-
-function announceAnswerInChat() {}
-
 function saveAnswers(token, answers, form_id) {
 	persistence.saveAnswers(token, answers, form_id)
-}
-
-function createFormFromString(text, callback) {
-	var unformatted_question = text.split('~');
-	var form = {
-		title: process.env.FORM_TITLE,
-		webhook_submit_url: process.env.LIVE_DOMAIN + "/receive_results",
-		fields: []
-	};
-	_.forEach(unformatted_question, function(question) {
-		var splitted = question.split('|');
-		var type = splitted[0].trim();
-		var text = splitted[1].trim();
-		form.fields.push({
-			type: type,
-			question: text
-		});
-	});
-	createTypeform(form, function(err, res, body) {
-		callback(err, res, body);
-	});
 }
 
 function createFormFromJSON(json, callback) {
