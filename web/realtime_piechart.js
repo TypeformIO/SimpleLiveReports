@@ -28,6 +28,9 @@ function requestData() {
           //}, 2000);
 					setTimeout(requestData, 500);    
         },
+				error: function() {
+					setTimeout(requestData, 1000);    
+				},
         cache: false
     });
 }
