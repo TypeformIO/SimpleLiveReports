@@ -147,6 +147,8 @@ function createFormFromJSON(json, callback) {
 
 function createTypeform(form, callback) {
 	var url = process.env.API_ENDPOINT;
+	
+	form.webhook_submit_url = process.env.FORM_WEBHOOK
 
 	var options = {
 		json: form,
