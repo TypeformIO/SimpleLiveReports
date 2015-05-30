@@ -122,7 +122,7 @@ function createFormFromString(text, callback) {
 	var unformatted_question = text.split('~');
 	var form = {
 		title: process.env.FORM_TITLE,
-		webhook_submit_url: process.env.FORM_WEBHOOK,
+		webhook_submit_url: process.env.LIVE_DOMAIN + "/receive_results",
 		fields: []
 	};
 	_.forEach(unformatted_question, function(question) {
@@ -148,7 +148,7 @@ function createFormFromJSON(json, callback) {
 function createTypeform(form, callback) {
 	var url = process.env.API_ENDPOINT;
 	
-	form.webhook_submit_url = process.env.FORM_WEBHOOK
+	form.webhook_submit_url = process.env.LIVE_DOMAIN + '/receive_results';
 
 	var options = {
 		json: form,
@@ -159,7 +159,7 @@ function createTypeform(form, callback) {
 	};
 
 	var requestCallback = function createFormCallback(error, response, body) {
-		report_url = 'http://simple_live_reports.ngrok.com/reports/' + body.id;
+		report_url = process.env.LIVE_DOMAIN + '/reports/' + body.id;
 		body.links.results_report = {get: report_url};
 		callback(error, response, body);
 	};
