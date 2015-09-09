@@ -14,7 +14,7 @@ function requestData() {
 					var answers_map = {};
 
 					var answers_map = _.countBy(answers.answers, function(answer) {
-						return answer.data.value
+						return answer.value.amount;
 					});
 
 					var answers_array = [];

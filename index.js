@@ -60,7 +60,7 @@ app.get('/alive', function handleAlive(req, res) {
 app.post('/receive_results', function handleReceiveResults(req, res) {
 	log('Got results!');
 	var body = req.body;
-	saveAnswers(body.token, body.answers, body.id);
+	saveAnswers(body.token, body.answers, body.uid);
 	res.send('All right...');
 });
 
@@ -70,7 +70,10 @@ app.post('/forms', function handleForms(req, res) {
 		if(err !== null) {
 			throw err
 		}
-		res.send(form);
+		res.send({
+			form: form._links[1].href,
+			report: form._links[2].href
+		});
 	});
 });
 
@@ -124,7 +127,7 @@ function createTypeform(form, callback) {
 
 	var requestCallback = function createFormCallback(error, response, body) {
 		report_url = process.env.LIVE_DOMAIN + '/reports/' + body.id;
-		body.links.results_report = {get: report_url};
+		body._links.push({ref: 'report', href: report_url});
 		callback(error, response, body);
 	};
 

@@ -24,25 +24,16 @@ Building simple, live reports by using Typeform I/O
 
 * Create a form via the `/forms` endpoint in `SimpleLiveReports`
 
-Example Form:
+Example CURL command:
 
 ```
-{
-    "title": "SimpleLiveReports",
-    "webhook_submit_url": "https://simple_live_reports.ngrok.com/receive_results",
-    "fields": [
-        {
-            "type": "number",
-            "question": "How old are you?"
-        }
-    ]
-}
+curl -X POST localhost:5000/forms --data '{"title": "Hello", "fields": [{"type": "number", "question": "How old are you?"}]}' -H "Content-Type: application/json"
 ```
 
 Note: Does only work with NumberField for now...
 
-* From the response you get back, there should be a `links` attribute that contains all the links where you can see associated resources to the form.
+* From the response you get back, there is two URLs
 
-* Visit the `links.results_report.get` link, where you can see the results once they been submitted.
+* Visit the `report` link, where you can see the results once they been submitted.
 
-* Navigate to the `links.form_render.get` link and fill out the typeform. Now the results should be showing up as a piechart.
+* Navigate to the `form` link and fill out the typeform. Now the results should be showing up as a piechart in the report
