@@ -1,3 +1,6 @@
+# Sorry, Typeform I/O will be deprecated soon. Please visit https://developer.typeform.com/ to discover our new developer products
+
+
 ## SimpleLiveReports
 
 Building simple, live reports by using Typeform I/O
